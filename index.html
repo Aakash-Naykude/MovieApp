@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Website</title>
+    <style>
+      #nav:hover {
+        background-color: rgb(64, 236, 20);
+        height: 25px;
+      }
+      #nav {
+        display: flex;
+        gap: 10px;
+      }
+      #nav > #homem {
+        flex-basis: 24%;
+      }
+      body {
+        background-image: url("https://cdn.wallpapersafari.com/16/33/EPBYhI.jpg");
+        color: rgb(216, 56, 56);
+      }
+      #sear {
+        width: 450px;
+        height: 20px;
+      }
+      #signin,
+      #signup {
+        height: 25px;
+      }
+      #home {
+        margin: 0 0 0 320px;
+      }
+      h2 {
+        margin: -5px 0 0 0;
+        background-color: green;
+        color: ivory;
+      }
+      #movie {
+        width: 30%;
+      }
+      #sugg {
+        margin-top: 5px;
+        height: 200px;
+        background-color: white;
+        margin-left: 460px;
+        width: 500px;
+        display: none;
+        border-radius: 5px;
+        overflow: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nav">
+      <h2>IMGUR</h2>
+      <div id="homem"></div>
+      <input
+        oninput="debounce(main, 1000)"
+        type="text"
+        id="movie"
+        placeholder="Enter movie name"
+      />
+      <button onclick="search()" id="search">&#128269;</button>
+
+      <button onclick="home()" id="home">Home</button>
+      <a href="signin.html"
+        ><button onclick="signin()" id="signin">Sign In</button></a
+      >
+      <a href="Signup.html"
+        ><button onclick="signup()" id="signup">Sign up</button></a
+      >
+    </div>
+    <div id="sugg"></div>
+    <div id="cont2"></div>
+    <div id="cont"></div>
+    <div id="cont3"></div>
+  </body>
+</html>
+<script>
+  let sort = document.createElement("div");
+  let sorHL = document.createElement("button");
+  sorHL.textContent = "Sort Movies by Rating High to Low";
+  sorHL.style.margin = "10px 5px 0 10px";
+  let sorLH = document.createElement("button");
+  sorLH.textContent = "Sort Movies by Rating Low to High";
+  sorLH.style.margin = "10px 5px 0 10px";
+  sort.append(sorHL, sorLH);
+  let slideImg = [
+    "https://images.hdqwalls.com/download/2020-avengers-endgame-4k-jo-1920x1080.jpg",
+    "https://images.hdqwalls.com/download/1/venom-movie-2018-hd-lf.jpg",
+    "https://wallpapertag.com/wallpaper/full/7/d/3/507954-beautiful-hd-movie-wallpapers-1080p-2560x1600.jpg",
+    "https://cdn.wallpapersafari.com/51/33/Y65q4t.jpg",
+  ];
+  let slide = document.createElement("div");
+  slide.style.width = "1100px";
+  slide.style.margin = "30px 20% 0 14%";
+  let cont3 = document.getElementById("cont3");
+  let inter;
+
+  function startSlide() {
+    let c = 0;
+    let img = document.createElement("img");
+    img.src = slideImg[c];
+    img.style.width = "1100px";
+    img.style.height = "450px";
+    slide.append(img);
+    c++;
+    inter = setInterval(function () {
+      slide.innerHTML = null;
+      if (c == slideImg.length) {
+        c = 0;
+      }
+      let img = document.createElement("img");
+      img.src = slideImg[c];
+      img.style.width = "1100px";
+      img.style.height = "450px";
+      slide.append(img);
+      c++;
+    }, 3000);
+  }
+  startSlide();
+
+  var data = [
+    {
+      name: " Frankenstein",
+      rating: "IMBD rating: 8.1",
+      rate: 8.1,
+      date: "Release Date: 11/05/2011",
+      img: "http://getwallpapers.com/wallpaper/full/d/d/a/136786.jpg",
+    },
+    {
+      name: " Spider Man",
+      rating: "IMBD rating: 8",
+      rate: 8,
+      date: "Release Date: 01/08/2009",
+      img: "https://wallpapercave.com/wp/s5JldYK.jpg",
+    },
+    {
+      name: " Green Lantern",
+      rating: "IMBD rating: 8.5",
+      rate: 8.5,
+      date: "Release Date: 11/05/2011",
+      img: "http://wallpapercave.com/wp/U5bf6wt.jpg",
+    },
+    {
+      name: " Green Lantern",
+      rating: "IMBD rating: 8.4",
+      rate: 8.4,
+      date: "Release Date: 01/08/2010",
+      img: "http://wallpapercave.com/wp/U5bf6wt.jpg",
+    },
+    {
+      name: " Aquaman",
+      rating: "IMBD rating: 9.1",
+      rate: 9.1,
+      date: "Release Date: 20/05/2019",
+      img: "https://hdqwalls.com/wallpapers/aquaman-2018-movie-poster-1z.jpg",
+    },
+    {
+      name: " WarCraft",
+      rating: "IMBD rating: 8.6",
+      rate: 8.6,
+      date: "Release Date: 11/05/2011",
+      img: "https://tse3.mm.bing.net/th?id=OIP.-ypNuBOIMqOJJ7kls5w70AHaEo&pid=Api&P=0&w=270&h=169",
+    },
+    {
+      name: " Piranha 3D",
+      rating: "IMBD rating: 7.1",
+      rate: 7.1,
+      date: "Release Date: 11/05/2008",
+      img: "https://tse3.mm.bing.net/th?id=OIP.Zb3tHHt5vFte2vx9j42ihwHaEr&pid=Api&P=0&w=271&h=172",
+    },
+    {
+      name: " Legion",
+      rating: "IMBD rating: 8.9",
+      rate: 8.9,
+      date: "Release Date: 15/01/2016",
+      img: "http://3.bp.blogspot.com/-y37SC-z1hxg/UZHMxa_3hrI/AAAAAAAAxvs/DFcYPQ2seJk/s1600/Movies+hd+Wallpapers+(11).jpg",
+    },
+    {
+      name: " Matrix",
+      rating: "IMBD rating: 8.1",
+      rate: 8.1,
+      date: "Release Date: 15/01/2002",
+      img: "https://tse1.mm.bing.net/th?id=OIP.V1EyTkXqzqylXMK3xDuPAQHaEK&pid=Api&P=0&w=270&h=153",
+    },
+    {
+      name: " 300",
+      rating: "IMBD rating: 8",
+      rate: 8,
+      date: "Release Date: 15/09/2015",
+      img: "https://tse2.mm.bing.net/th?id=OIP.zdwe-Ef8xaQCZ5IsmXg9RwHaEK&pid=Api&P=0&w=271&h=153",
+    },
+    {
+      name: " SkyFall",
+      rating: "IMBD rating: 9",
+      rate: 9,
+      date: "Release Date: 15/01/2020",
+      img: "https://tse2.mm.bing.net/th?id=OIP.ytkr3ygcKJMYbp6SMEzHAAHaEK&pid=Api&P=0&w=296&h=167",
+    },
+    {
+      name: " Fury",
+      rating: "IMBD rating: 9.2",
+      rate: 9.2,
+      date: "Release Date: 15/01/2020",
+      img: "https://tse1.mm.bing.net/th?id=OIP.4ntYTniIc9SSakslo67qeAHaEK&pid=Api&P=0&w=321&h=181",
+    },
+  ];
+
+  var list = document.createElement("div");
+  list.style.width = "1200px";
+  list.style.display = "grid";
+  list.style.margin = "25px 0 0 10.5%";
+  list.style.gridTemplateColumns = "auto auto auto";
+
+  function showMovies(d) {
+    list.innerHTML = null;
+    d.forEach(function (prod) {
+      let div = document.createElement("div");
+      div.style.margin = "auto";
+      let img = document.createElement("img");
+      img.src = prod.img;
+      img.style.width = "300px";
+      img.style.height = "200px";
+      img.style.borderRadius = "20px";
+      let name = document.createElement("div");
+      let text = document.createElement("span");
+      let nameSpan = document.createElement("span");
+      nameSpan.textContent = "Movie Name : ";
+      nameSpan.style.fontWeight = "900";
+      nameSpan.style.color = "black";
+      text.textContent = prod.name;
+      name.style.backgroundColor = "white";
+      name.append(nameSpan, text);
+
+      let releaseDate = document.createElement("p");
+      releaseDate.textContent = prod.date;
+      releaseDate.style.backgroundColor = "white";
+      let ratin = document.createElement("p");
+      ratin.textContent = prod.rating;
+      ratin.style.backgroundColor = "white";
+      div.append(img, name, releaseDate, ratin);
+      list.append(div);
+    });
+  }
+  showMovies(data);
+
+  cont3.append(sort, slide, list);
+
+  sorLH.addEventListener("click", sortLtH);
+  function sortLtH() {
+    let arr = data.sort(function (a, b) {
+      return a.rate - b.rate;
+    });
+
+    showMovies(arr);
+  }
+
+  sorHL.addEventListener("click", sortHtL);
+  function sortHtL() {
+    let arr = data.sort(function (a, b) {
+      return b.rate - a.rate;
+    });
+
+    showMovies(arr);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var sets;
+    let cont = document.getElementById('cont')
+    cont.style.display = "grid"
+    cont.style.gridTemplateColumns = "auto auto auto auto"
+    cont.style.gap = "2%"
+    cont.style.margin = "2%"
+    let m = document.getElementById('sugg')
+    async function start(name) {
+        try {
+            let res = await fetch(`http://www.omdbapi.com/?apikey=18e8b787&s=${name}`)
+            let data = await res.json()
+            return data
+        }
+        catch (e) {
+            alert(e)
+        }
+    }
+    function append(movies) {
+        m.innerHTML = null;
+        m.style.display ="block"
+        cont.innerHTML = null;
+        if (movies === undefined) {
+            return false;
+        }
+        movies.forEach(function (data) {
+            let p = document.createElement('p')
+            p.innerText = data.Title;
+            p.onclick = function () {
+                showinfo(data.imdbID)
+            }
+            m.append(p)
+        })
+        movies.forEach(function (data) {
+            let div = document.createElement('div')
+            let img = document.createElement('img')
+            img.src = data.Poster;
+            let name = document.createElement('p')
+            name.innerText = data.Title;
+            let release = document.createElement('p')
+            release.innerText = data.Year;
+            let imdb = document.createElement('p')
+            imdb.innerText = data.imdbID;
+            let btn = document.createElement('button');
+            btn.innerText = "Show more info"
+            //console.log(imdb)
+            btn.onclick = function () {
+                showinfo(imdb.innerHTML)
+                //passdata(imdb.innerHTML)
+            }
+            div.append(img, name, release, imdb, btn)
+            cont.append(div)
+        })
+    }
+    let cont2 = document.getElementById('cont2')
+    async function showinfo(data) {
+        cont2.style.innerHTML = null
+        console.log(data)
+        let res = await fetch(`http://www.omdbapi.com/?apikey=18e8b787&i=${data}`)
+        let d = await res.json()
+        console.log(d)
+        let img = document.createElement('img')
+        img.src = d.Poster;
+        img.style.borderRadius = "10px"
+        let name = document.createElement('p')
+        name.innerText = d.Title;
+        let box = document.createElement('p')
+        box.innerText = d.BoxOffice;
+        let release = document.createElement('p')
+        release.innerText = d.Released;
+        let lan = document.createElement('p')
+        lan.innerText = d.Language;
+        let gerne = document.createElement('p');
+        gerne.innerText = d.Genre;
+        let rating = document.createElement("P")
+        rating.innerText = d.imdbRating;
+        cont2.append(img, name, box, lan, gerne, rating)
+    }
+    async function main() {
+        let name = document.getElementById('movie').value;
+        if(name.length == null){
+          m.style.display ="none"
+        }
+        if (name.length < 3) {
+            return false;
+        }
+        let res = await start(name)
+        append(res.Search)
+        //console.log(res)
+    }
+    function debounce(main, time) {
+        if (sets) {
+            clearTimeout(sets)
+        }
+        sets = setTimeout(function () {
+            main()
+        }, time)
+    }
+</script>
