@@ -35,6 +35,7 @@ Install my-project with repository
 
 ## Homepage
 
-![Screenshot 2022-01-10 230959](https://user-images.githubusercontent.com/91772445/148813525-c71c5bab-8e2b-4619-8586-c2e408a2a22f.jpg)
+![Screenshot 2022-01-10 231639](https://user-images.githubusercontent.com/91772445/148813686-aff7962b-b35a-4f64-808a-289fb7ef1740.jpg)
+
 
 
